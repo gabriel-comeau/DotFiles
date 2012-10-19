@@ -1,0 +1,7 @@
+#!/bin/sh
+T=`mktemp -u /tmp/temp.XXXXXXX`
+rm -f $T;
+mv $1 $T;
+rm -f $1
+mv $2 $1
+mv $T $2

@@ -1,0 +1,23 @@
+#!/bin/sh
+if [ $# -lt 2 ]; then
+   echo "xnest DISPLAY_NUMBER WxH QUERY_HOST"
+   exit
+fi
+QUERY=""
+#if [ $# -eq 3 ]; then
+#   QUERY="-query $3"
+#   echo "Querying "$3" for remote XDMCP login" 
+#fi
+SCRNS=""
+if [ $#  -eq 3 ]; then
+  SCRNS="-scrns $3"
+fi
+if [ -x /opt/xephyr/bin/Xephyr ]; then
+  EXE=/opt/xephyr/bin/Xephyr
+else
+  EXE=Xephyr
+fi
+exec $EXE :$1 \
+-fp "$HOME/.xfonts/pcf,$HOME/.xfonts/ttf,/usr/X11R6/lib/X11/fonts/misc/,/usr/X11R6/lib/X11/fonts/Speedo/,/usr/X11R6/lib/X11/fonts/Type1/,/usr/X11R6/lib/X11/fonts/75dpi/,/usr/X11R6/lib/X11/fonts/100dpi/,/usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Speedo/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/" \
+-ac -br -dpi 75 -screen $2 -nolock $SCRNS \
+$QUERY

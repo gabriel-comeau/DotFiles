@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "$1" = "kill" ]; then
+  exec vncserver -kill $HOST:1
+else 
+  exec vncserver -depth 24 -geometry 800x600
+fi

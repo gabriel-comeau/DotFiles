@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "INIT OPROFILE..."
+sudo opcontrol --no-vmlinux
+sudo opcontrol --init
+sudo opcontrol -s
+sudo opcontrol -d
+sudo opcontrol --reset
+echo "RUN TEST APP..."

@@ -1,0 +1,3 @@
+for I in `ipcs -m | grep 0x | grep $USER | awk '{print $2;}' | awk -F r '{print $1;}'`; do echo -n "Deleiting SHM ID: $I ";ipcrm shm $I; done
+for I in `ipcs -s | grep 0x | grep $USER | awk '{print $2;}' | awk -F r '{print $1;}'`; do echo -n "Deleiting SEM ID: $I ";ipcrm sem $I; done
+for I in `ipcs -q | grep 0x | grep $USER | awk '{print $2;}' | awk -F r '{print $1;}'`; do echo -n "Deleiting MSG ID: $I ";ipcrm msg $I; done

@@ -1,0 +1,175 @@
+###############################################################################
+# local variables to use
+ZH=~/zsh/.zsh
+
+###############################################################################
+# some environment variables to set up
+export HOSTNAME="`hostname`"
+export LESS="-R"
+
+###############################################################################
+# paths are scanned from these files
+export            PATH=`awk '{printf("%s:",$1);}' < $ZH/path | sed 's:~:'$HOME':g'`:$PATH
+export LD_LIBRARY_PATH=`awk '{printf("%s:",$1);}' < $ZH/libs | sed 's:~:'$HOME':g'`
+
+SYNC_PATH=`cat $ZH/sync_files | awk '{printf("%s ", $1);}' | sed 's:~:'$HOME':g'`
+export SYNC_PATH
+
+###############################################################################
+# term type - if we dont know the term type - set it to linux
+if [ "$TERM" = "" -o "$TERM" = "unknown" ]; then
+  export TERM=linux
+fi
+
+###############################################################################
+# my prompt
+# normal prompt
+# export PS1=$C1$G1$C2' %m '$C3$G2$C4$G1$C5' %t '$C0''$C6'%~'$C0' '
+ 
+ black='%{[30m%}'
+ red='%{[31m%}'
+ green='%{[32m%}'
+ yellow='%{[33m%}'
+ blue='%{[34m%}'
+ purple='%{[35m%}'
+ cyan='%{[36m%}'
+ grey='%{[37m%}'
+ bg_black='%{[40m%}'
+ bg_red='%{[41m%}'
+ bg_green='%{[42m%}'
+ bg_yellow='%{[43m%}'
+ bg_blue='%{[44m%}'
+ bg_purple='%{[45m%}'
+ bg_cyan='%{[46m%}'
+ bg_grey='%{[47m%}'
+ bright='%{[01m%}'
+ underline='%{[04m%}'
+ flashing='%{[05m%}'
+ normal='%{[0m%}'
+ 
+if [ -n "$SSH_TTY" ]; then
+# SSH session
+  if [ "$USER" = "root" ]; then
+  # root
+    export PROMPT=$bright$bg_purple$red'@ '$red'%t '$red'%~'$normal$bg_purple$bright$red' #'$normal' '
+  else
+  # me
+    #export PROMPT=$bright$bg_blue$cyan'[@'$HOST']'$grey'%t '$cyan'%~'$normal$bg_blue$bright$grey' >'$normal' '
+		export PS1="(%F{blue}^%F{normal}%F{cyan}^%F{normal}) %F{red}@%F{green}%m %F{cyan}::%F{normal} %F{yellow}%t%F{normal} %F{cyan}:%F{normal}%F{blue}: %F{yellow}%~%F{normal}%(1v.%F{red}%1v%f.) > "
+  fi
+else
+# local session
+  if [ "$USER" = "root" ]; then
+  # root
+    export PROMPT=$bright$bg_red$yellow'%t '$red'%~'$normal$bg_red$bright$yellow' #'$normal' '
+  else
+  # me
+   #export PROMPT=$bright$black'['$grey$HOST$black']'$grey'%t '$black'%~'$normal$bright$grey' >'$normal' '
+		export PS1="%F{blue}:%F{normal}%F{cyan}:%F{normal} %F{red}@%F{green}%m %F{cyan}::%F{normal} %F{yellow}%t%F{normal} %F{cyan}:%F{normal}%F{blue}: %F{yellow}%~%F{normal}%(1v.%F{red}%1v%f.) > "
+  fi
+	#source $ZH/promptinit
+	#source $ZH/prompt_fire_setup
+fi
+
+# prompt you get when you dont finish typing stuff...
+export PS2=$bright$bg_grey$black'? '$grey'>'$normal
+
+###############################################################################
+# function called before the prompt is displayed
+function precmd {
+# get a title at random from the title list
+#  if [ $TERM = xterm ]; then
+    TLINES=`wc -l $ZH/titles | awk '{print $1;}'`
+    TLINE=$[ ${RANDOM} % $TLINES ];
+    TLINE=$[ $TLINE + 1 ];
+    TITLE=`head -n $TLINE < $ZH/titles | tail -n 1`
+		#for xterm 
+    #echo -ne ']0;'$TITLE'\007'
+		#for zsh
+		echo -ne "\033]2;$TITLE\007"
+#  fi
+}
+
+###############################################################################
+# misc settings
+# num of times ctrl-d has to be pressed again to get zsh to exit
+export IGNOREEOF=0
+# set the default editor fc
+export FCEDIT=vim
+# define which file sets up the interactive input settings
+export INPUTRC=$ZH/input
+# set this variable to something so "dot" files in a pathname are expanded
+export glob_dot_filenames=1
+# make sure zsh doesn't follow links in expansions
+export nolinks=1
+
+# history
+export HISTSIZE=50000
+export HISTFILE=~/.history
+export SAVEHIST=50000
+setopt share_history
+setopt extended_history
+
+bindkey -e
+bindkey '[D' emacs-backward-word
+bindkey '[C' emacs-forward-word
+export WORDCHARS='*?_[]~=&;!#$%^(){}'
+
+# hostname completion
+export HOSTFILE="/etc/hosts"
+# set the umask
+umask 022
+# setup the dir colours
+eval `dircolors -b $ZH/ls_colors`
+# get my aliases
+. $ZH/aliases
+# My preferred editor
+export EDITOR=vim
+# just type directory name to cd to it
+setopt AUTO_CD
+# list all choices on an ambiguous completion
+setopt AUTO_LIST
+# after second completion attempt use a menu
+setopt AUTO_MENU
+# complete dirs with a / at the end
+setopt AUTO_PARAM_SLASH
+# dont run background jobs at a lower priority
+setopt NO_BG_NICE
+# if we cd to a dir that doesnt exist and its not starting with / try it in ~/
+#setopt CDABLE_VARS
+# dont send HUP signales to jobs running if shell goes down
+setopt NO_HUP
+# notify me of bg jobs exiting immediately - not at next prompt
+setopt NOTIFY
+# extended globbing
+setopt extendedglob
+
+
+# Generic
+export ANT_ARGS="-logger org.apache.tools.ant.listener.AnsiColorLogger"
+export SVN_EDITOR=vim
+export TERM='xterm-256color'
+export PATH=~/bin:$PATH
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+autoload -U compinit
+compinit
+
+# notes...
+#################################
+# tidbits of ansi escapes etc....
+# scroll from 10 to 20
+# $LINES = lines
+# SCROLLREG='[10;20r'
+#  LL=$[ $LINES - 2];
+#  echo '['$LL';'1'H'
+#  echo '[1;'$LL'r'
+
+autoload -Uz vcs_info
+
+precmd() {
+  psvar=()
+
+  vcs_info
+  [[ -n $vcs_info_msg_0_ ]] && psvar[1]="$vcs_info_msg_0_"
+}

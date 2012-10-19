@@ -1,0 +1,37 @@
+#!/bin/sh
+
+if [ $# -lt 2 ]; then
+  echo "Usage:"
+  echo "  e_bggen.sh source_image_file.jpg/.png output_file.edj [-q N] [-c]"
+  echo ""
+  echo "where 'source_image_file.jpg/.png' is the source image,"
+  echo "'output_file.edj' is the output file to produce and then optional"
+  echo "options of -q N for quality (where N is between 1 and 100), or the"
+  echo "-c option which forces compressed lossless encoding."
+  exit -1
+fi
+
+BG=$1
+OUT=$2
+
+# internal values
+QUAL=90
+ENC="LOSSY $QUAL"
+
+# options
+if [ "$3" = "-q" ]; then
+  QUAL="$4"
+  ENC="LOSSY $QUAL"
+fi
+if [ "$3" = "-c" ]; then
+  ENC="COMP"
+fi
+
+cat <<EOF > t.edc
+images { image: "$BG" $ENC; } collections { group { name: "desktop/background";
+parts { part { name: "background"; description { state: "default" 0.0;
+image { normal: "$BG"; } } } } } }
+EOF
+
+edje_cc -v t.edc $OUT
+rm t.edc

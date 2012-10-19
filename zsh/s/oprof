@@ -1,0 +1,13 @@
+#!/bin/sh
+echo "INIT OPROFILE..."
+sudo opcontrol --init
+sudo opcontrol -s
+sudo opcontrol -d
+sudo opcontrol --reset
+echo "RUN TEST APP..."
+$@
+echo "RUN DONE."
+sudo opcontrol -t
+echo "WRITING PROFILE: oprof.txt"
+opreport -l > oprof.txt
+echo "DONE."

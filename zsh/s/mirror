@@ -1,0 +1,3 @@
+#!/bin/sh
+
+tar -cf - $1 | tar -C $2 -xvf -

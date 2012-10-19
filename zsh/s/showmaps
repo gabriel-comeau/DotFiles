@@ -1,0 +1,39 @@
+#!/usr/bin/perl -w
+
+# Find all the inodes
+
+@dirs = qw(/lib /usr/lib /usr/local/lib /usr/X11R6/lib);
+
+for $dir (@dirs) {
+    opendir (DIR, $dir);
+    while (defined ($ent = readdir DIR)) {
+	$file = "$dir/$ent";
+	if (!-l $file) {
+	    ($dev, $ino) = stat $file;
+	    $inodes{"$dev|$ino"} = $file;
+	}
+    }
+}
+
+open PROC, "</proc/$ARGV[0]/maps" || die "No such process";
+
+$total = 0;
+
+while (<PROC>) {
+    ($start, $end, $perms, $offset, $major, $minor, $inode) =
+	/([0-9a-f]+)-([0-9a-f]+)\s+(\S+)\s+([0-9a-f]+)\s+(\d+):(\d+)\s+(\d+)/;
+    
+    $size = (hex $end) - (hex $start);
+    $dev = $major*256 + $minor;
+    $key = "$dev|$inode";
+    if (exists ($inodes{$key})) {
+	printf "%5d $perms $inodes{$key}\n", $size/1024;
+    } else {
+	printf "%5d $perms $major:$minor $inode\n", $size/1024;
+    }
+    $total += $size;
+}
+
+close PROC;
+
+print $total/1024,"\n";

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]; then
+  echo "usage: lines FIRST_LINE NUMBER_OF_LINES"
+  exit -1
+fi
+
+N=$1
+C=$2
+T=$[ $N + $C ];
+
+head "--lines="$T | tail "--lines="$C
