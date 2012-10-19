@@ -6,7 +6,7 @@ ln -s ~/zsh/.zsh/rc ~/.zshrc
 
 For the .gitconfig you'll want to add:
 
-[user]
+`[user]
   name = Your Name
-  email = Youremail@example.com
+  email = Youremail@example.com`
 
