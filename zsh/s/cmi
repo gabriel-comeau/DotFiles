@@ -1,6 +1,0 @@
-#!/bin/sh
-make clean distclean
-./autogen.sh
-make clean distclean
-./configure $@
-make && sudo make install

@@ -1,6 +1,0 @@
-#!/bin/sh
-echo "RUN DONE."
-sudo opcontrol -t
-echo "WRITING PROFILE: oprof.txt"
-opreport -l > oprof.txt
-echo "DONE."

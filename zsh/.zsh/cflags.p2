@@ -1,1 +1,0 @@
--O2 -march=pentium2 -fomit-frame-pointer -mmmx -pipe

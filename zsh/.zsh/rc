@@ -8,14 +8,6 @@ export HOSTNAME="`hostname`"
 export LESS="-R"
 
 ###############################################################################
-# paths are scanned from these files
-export            PATH=`awk '{printf("%s:",$1);}' < $ZH/path | sed 's:~:'$HOME':g'`:$PATH
-export LD_LIBRARY_PATH=`awk '{printf("%s:",$1);}' < $ZH/libs | sed 's:~:'$HOME':g'`
-
-SYNC_PATH=`cat $ZH/sync_files | awk '{printf("%s ", $1);}' | sed 's:~:'$HOME':g'`
-export SYNC_PATH
-
-###############################################################################
 # term type - if we dont know the term type - set it to linux
 if [ "$TERM" = "" -o "$TERM" = "unknown" ]; then
   export TERM=linux
@@ -150,7 +142,6 @@ export ANT_ARGS="-logger org.apache.tools.ant.listener.AnsiColorLogger"
 export SVN_EDITOR=vim
 export TERM='xterm-256color'
 export PATH=~/bin:$PATH
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 autoload -U compinit
 compinit

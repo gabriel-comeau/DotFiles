@@ -1,3 +1,0 @@
-#!/bin/sh
-ps -eo size,ucmd | sort -rn | head -n 20
- 
