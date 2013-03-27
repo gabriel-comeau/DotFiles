@@ -28,9 +28,9 @@ set mouse=
 " indenting http://tedlogan.com/techblog3.html
 set autoindent 
 "set expandtab "hitting tab insert spaces instead of <Tab>
-set tabstop=2
+set tabstop=4
 set shiftwidth=4
-set softtabstop=2
+set softtabstop=4
 set nowrap " kikoo (lol)"
 syntax match Tab /\t/
 hi Tab cterm=underline ctermfg=grey
@@ -67,7 +67,7 @@ set completeopt=menuone,menu,longest,preview
 "xml html
 let g:xml_syntax_folding = 1
 "folding : repère les bloc du langage à plier
-set foldmethod=syntax
+""set foldmethod=syntax
 
 "twitter shortcuts   
 let g:twitterusername='floby'
