@@ -6,9 +6,9 @@ update_interval 0.5
 total_run_times 0
 own_window yes
 own_window_type normal
-own_window_transparent no
+own_window_transparent yes
 own_window_argb_visual yes
-own_window_argb_value 180
+own_window_argb_value 0
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 double_buffer yes
 minimum_size 250 5
@@ -23,7 +23,7 @@ default_shade_color red
 default_outline_color green
 alignment top_right
 gap_x 10
-gap_y 10
+gap_y 38
 no_buffers no
 uppercase no
 cpu_avg_samples 2
@@ -33,57 +33,46 @@ use_spacer right
 text_buffer_size 256
 
 TEXT
-
-${alignc 15}${color gold}${font Triforce:size=30}*
+${alignc 15}${color white}${font Triforce:size=30}*
 ${alignc -10}${font Arial:size=20}${color Ivory}$nodename
 
-${voffset -90}
+${voffset -100}
 ${color White}
 ${font}
-${font Arial:bold:size=10}${color Tan1}SYSTEM ${color DarkSlateGray} ${hr 2}
+${font Arial:bold:size=10}${color white}SYSTEM ${color white} ${hr 2}${voffset 2}
 $font${color White}$sysname $kernel $alignr $machine
 Uptime $alignr${uptime}
 
-${font Arial:bold:size=10}${color Tan1}PROCESSORS ${color DarkSlateGray}${hr 2}
-$font${color White} ${cpu cpu0}% ${cpubar cpu0}
- ${cpu cpu1}% ${cpubar cpu1}
- ${cpu cpu2}% ${cpubar cpu2}
- ${cpu cpu3}% ${cpubar cpu3}
- ${cpu cpu4}% ${cpubar cpu4}
- ${cpu cpu5}% ${cpubar cpu5}
- ${cpu cpu6}% ${cpubar cpu6}
- ${cpu cpu7}% ${cpubar cpu7}
+${font Arial:bold:size=10}${color white}CPU ${color white}${hr 2}${voffset 2}
+$font${color White}${cpu cpu0}% ${cpubar cpu0 5,100}${alignr}${cpu cpu1}% ${cpubar cpu1 5,100}
+${cpu cpu2}% ${cpubar cpu2 5,100}${alignr}${cpu cpu3}% ${cpubar cpu3 5,100}
+${cpu cpu4}% ${cpubar cpu4 5,100}${alignr}${cpu cpu5}% ${cpubar cpu6 5,100}
+${cpu cpu6}% ${cpubar cpu6 5,100}${alignr}${cpu cpu7}% ${cpubar cpu7 5,100}
 
-${font Arial:bold:size=10}${color Tan1}MEMORY ${color DarkSlateGray}${hr 2}
+${font Arial:bold:size=10}${color white}MEMORY ${color white}${hr 2}${voffset 2}
 $font${color White}MEM $alignc $mem / $memmax $alignr $memperc%
 $membar
 
-${font Arial:bold:size=10}${color Tan1}HDD ${color DarkSlateGray}${hr 2}
-$font${color White}/ $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_free_perc /}%
-${fs_bar /}
+${font Arial:bold:size=10}${color white}HDD ${color white}${hr 2}${voffset 2}
+$font${color White}/     ${fs_used /} / ${fs_size /} $alignr${fs_bar 6,67 /}  ${fs_free_perc /}%
 
-read   ${voffset -10}${diskiograph_read /dev/sda5 20,150 FF0000 FFFB00} ${voffset -10}${alignr 10}$diskio_read
+read   ${voffset -7}${diskiograph_read /dev/sda5 15,85 white white}${alignr 10}${voffset 5}write${voffset -5}  ${diskiograph_write /dev/sda5 15,85 white white}
+${alignc -15}$diskio_read                              $diskio_write
 
-write  ${voffset -10}${diskiograph_write /dev/sda5 20,150 FF0000 FFFB00} ${voffset -10}${alignr 10}$diskio_write
+${font Arial:bold:size=10}${color white}TOP PROCESSES ${color white}${hr 2}${voffset 2}
+${color White}${font Arial:bold:size=9}${offset 45}MEM${alignr}${offset -45}CPU
+$font${top_mem name 1}${offset 3}${top mem 1} %${alignr}${top name 1}${offset 3}${top cpu 1} %
+$font${top_mem name 2}${offset 3}${top mem 2} %${alignr}${top name 2}${offset 3}${top cpu 2} %
+$font${top_mem name 3}${offset 3}${top mem 3} %${alignr}${top name 3}${offset 3}${top cpu 3} %
+$font${top_mem name 4}${offset 3}${top mem 4} %${alignr}${top name 4}${offset 3}${top cpu 4} %
+$font${top_mem name 5}${offset 3}${top mem 5} %${alignr}${top name 5}${offset 3}${top cpu 5} %
+$font${top_mem name 6}${offset 3}${top mem 6} %${alignr}${top name 6}${offset 3}${top cpu 6} %
+$font${top_mem name 7}${offset 3}${top mem 7} %${alignr}${top name 7}${offset 3}${top cpu 7} %
 
-${font Arial:bold:size=10}${color Tan1}TOP PROCESSES ${color DarkSlateGray}${hr 2}
-${color White}$font${top_mem name 2}${alignr}${top mem 2} %
-$font${top_mem name 3}${alignr}${top mem 3} %
-$font${top_mem name 4}${alignr}${top mem 4} %
-$font${top_mem name 5}${alignr}${top mem 5} %
-$font${top_mem name 6}${alignr}${top mem 6} %
-$font${top_mem name 7}${alignr}${top mem 7} %
-$font${top_mem name 8}${alignr}${top mem 8} %
-
-${font Arial:bold:size=10}${color Tan2}NETWORK ${color DarkSlateGray}${hr 2}
+${font Arial:bold:size=10}${color white}NETWORK ${color white}${hr 2}${voffset 2}
 $font${color White}IP on eth0 $alignr ${addr eth0}
-
-down   ${voffset -10}${downspeedgraph eth0 20,150 4400FF 23C474} ${voffset -10}${alignr 10}${downspeed eth0}
-${voffset 13}up        ${voffset -10}${upspeedgraph eth0 20,150 4400FF 23C474} ${voffset -10}${alignr 10}${upspeed eth0}
-
 Downloaded: $alignr  ${totaldown eth0}
 Uploaded: $alignr  ${totalup eth0}
 
-${font Arial:bold:size=10}${color Tan2}AUDIO ${color DarkSlateGray}${hr 2}
-$font${color yellow}
-${execgraph -t /home/gabe/bin/audiographer.sh}
+down   ${voffset -7}${downspeedgraph eth0 15,85 white white}${alignr 10}${voffset 5}up${voffset -5}  ${upspeedgraph eth0 15,85 white white}
+${alignc -15}${downspeed eth0}                            ${upspeed eth0}
