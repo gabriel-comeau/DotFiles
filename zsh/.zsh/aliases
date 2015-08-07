@@ -1,6 +1,7 @@
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+alias grop='grep -rniI --color=auto'
 alias psg='ps aux | grep'
 alias ls='ls --color -C -h -v'
 alias l='ls --color -C -h -v'
@@ -18,3 +19,4 @@ alias pc='cp'
 alias vm='mv'
 alias d1='export DISPLAY=$HOST:1'
 alias gti='git'
+
